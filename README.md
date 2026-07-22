@@ -2,7 +2,7 @@
 
 [Tesseract Core](https://github.com/pasteurlabs/tesseract-core) &nbsp;|&nbsp; [Docs](https://docs.pasteurlabs.ai/projects/tesseract-core/latest/) &nbsp;|&nbsp; [Forum](https://si-tesseract.discourse.group/) &nbsp;|&nbsp; [Issues](https://github.com/pasteurlabs/cookiecutter-tesseract/issues) &nbsp;|&nbsp; [Contribute](CONTRIBUTING.md)
 
-A [cookiecutter](https://cookiecutter.readthedocs.io) template for **multi-Tesseract projects** — a monorepo that combines several [Tesseracts](https://github.com/pasteurlabs/tesseract-core) into a pipeline application, with shared code, tests, and CI wired up from the start.
+A [cookiecutter](https://cookiecutter.readthedocs.io) template for **multi-Tesseract projects**. Provides a monorepo that combines several [Tesseracts](https://github.com/pasteurlabs/tesseract-core) into a pipeline application, with shared code, tests, and CI wired up from the start.
 
 **Use this if** you're building an application out of more than one Tesseract and want a batteries-included layout instead of hand-rolling one. Building a single Tesseract? Use `tesseract init` from Tesseract Core instead.
 
@@ -10,7 +10,7 @@ New to Tesseract? Start with the [Tesseract Core docs](https://docs.pasteurlabs.
 
 ## Features
 
-- **Monorepo layout** — components (Tesseracts), shared code, and the pipeline app live in one repo with a sensible directory structure.
+- **Monorepo layout** — components (Tesseracts), shared code, and the pipeline app live in one repo with a standardized directory structure.
 - **`make` workflow** — `make new`, `build`, `test`, `data`, and `run` wrap the common Tesseract commands so you don't memorize them.
 - **Component scaffolding** — `make new <name> [RECIPE=base|jax|pytorch]` spins up a Tesseract, wired to depend on the shared code package.
 - **Shared code package** — a place for utilities every Tesseract can import, installed automatically into each component.
