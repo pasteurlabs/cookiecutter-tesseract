@@ -1,0 +1,11 @@
+{
+    "project_name": "My Tesseract Project",
+    "package_name": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "project_short_description": "A Tesseract project combining multiple components into pipelines.",
+    "author_name": "Your Name",
+    "version": "0.1.0",
+    "license": ["Apache-2.0", "MIT", "BSD-3-Clause", "Proprietary"],
+    "__prompts__": {
+        "package_name": "Python package name (importable, no spaces) - derived from project name, edit if you want something different"
+    }
+}

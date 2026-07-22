@@ -1,0 +1,12 @@
+{
+    "endpoint": "apply",
+    "payload": {"inputs": {"vector": [1.0, 2.0, 3.0], "scale_factor": 2.0}},
+    "expected_outputs": {
+        "scaled_vector": {
+            "object_type": "array",
+            "shape": [3],
+            "dtype": "float32",
+            "data": {"buffer": [2.0, 4.0, 6.0], "encoding": "json"}
+        }
+    }
+}
