@@ -4,7 +4,7 @@
 This script runs after the project is generated from the template.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 PROJECT_NAME = "{{ cookiecutter.project_name }}"
@@ -49,7 +49,7 @@ def pin_tesseract_version(project_dir: Path) -> None:
 def render_license(project_dir: Path) -> None:
     """Write the chosen license text and record it in the app metadata."""
     license_file = project_dir / "LICENSE"
-    year = datetime.now().year
+    year = datetime.now(tz=timezone.utc).year
     holder = AUTHOR_NAME or PROJECT_NAME
 
     text = LICENSE_TEXTS[LICENSE_ID].format(year=year, holder=holder)
