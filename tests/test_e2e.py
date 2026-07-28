@@ -33,7 +33,10 @@ def _docker_available() -> bool:
     docker = shutil.which("docker")
     if docker is None or shutil.which("tesseract") is None:
         return False
-    return subprocess.run([docker, "info"], capture_output=True).returncode == 0
+    return (
+        subprocess.run([docker, "info"], capture_output=True, check=False).returncode
+        == 0
+    )
 
 
 pytestmark = [
@@ -56,6 +59,7 @@ def run(
         shell=shell,
         text=True,
         capture_output=True,
+        check=False,
     )
     if result.stdout:
         print(result.stdout)

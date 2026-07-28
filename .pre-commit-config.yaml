@@ -14,12 +14,17 @@ repos:
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
   # Ruff version.
-  rev: v0.15.22
+  rev: v0.16.0
   hooks:
   # Run the linter.
   - id: ruff
     args: [--fix]
     types_or: [pyi, python, jupyter]
+    # The template package's `__init__.py` sits under a cookiecutter placeholder
+    # directory, so its module name (`{{ cookiecutter.package_name }}`) trips N999
+    # until the project is generated. Skip it here only, the generated project
+    # lints it normally.
+    exclude: 'cookiecutter\.package_name.*/__init__\.py$'
     # Ignore global python configuration for private registry and install hooks from public index
     # Add for each hook
     # Reference: https://github.com/pre-commit/pre-commit/issues/1454#issuecomment-1816328894
