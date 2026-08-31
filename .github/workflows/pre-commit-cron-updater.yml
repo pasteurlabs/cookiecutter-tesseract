@@ -65,7 +65,7 @@ jobs:
           committer: PasteurBot <${{ vars.PL_PASTEURBOT_EMAIL }}>
           author: PasteurBot <${{ vars.PL_PASTEURBOT_EMAIL }}>
           commit-message: Update pre-commit hooks
-          title: ✅ Update pre-commit hooks
+          title: "chore: ✅ Update pre-commit hooks"
           branch: _bot/update-precommit
           draft: false
           body: |
@@ -87,7 +87,7 @@ jobs:
           committer: PasteurBot <${{ vars.PL_PASTEURBOT_EMAIL }}>
           author: PasteurBot <${{ vars.PL_PASTEURBOT_EMAIL }}>
           commit-message: Update pre-commit hooks
-          title: ⚠️ Update pre-commit hooks [review required]
+          title: "chore: ⚠️ Update pre-commit hooks [review required]"
           branch: _bot/update-precommit
           draft: true
           body: |
