@@ -10,6 +10,7 @@ The Docker-dependent end-to-end flow (``make new`` / ``build`` / ``test`` /
 """
 
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -82,6 +83,26 @@ def test_makefile_exposes_all_documented_targets(generated_project: Path) -> Non
     makefile = (generated_project / "Makefile").read_text(encoding="utf-8")
     for target in ("new", "build", "test", "run"):
         assert f"\n{target}:" in makefile, f"Makefile is missing the '{target}' target"
+
+
+@pytest.mark.skipif(
+    sys.platform == "win32" or shutil.which("bash") is None,
+    reason="make data runs the script with bash",
+)
+def test_make_data_script_fails_until_edited(generated_project: Path) -> None:
+    """`make data` runs data/get_data.sh, which fails loudly until it is filled in."""
+    makefile = (generated_project / "Makefile").read_text(encoding="utf-8")
+    assert "bash data/get_data.sh" in makefile
+    assert os.access(generated_project / "data" / "get_data.sh", os.X_OK)
+    result = subprocess.run(
+        ["bash", "data/get_data.sh"],
+        cwd=generated_project,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 1, result.stderr
+    assert "Edit it to fetch your data" in result.stderr
 
 
 def test_ci_installs_from_app_paths(generated_project: Path) -> None:
