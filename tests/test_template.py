@@ -10,12 +10,14 @@ The Docker-dependent end-to-end flow (``make new`` / ``build`` / ``test`` /
 """
 
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 from cookiecutter.main import cookiecutter
+from packaging.licenses import canonicalize_license_expression
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -138,6 +140,13 @@ LICENSE_MARKERS = {
     "Proprietary": "proprietary and confidential",
 }
 
+LICENSE_SPDX_IDS = {
+    "Apache-2.0": "Apache-2.0",
+    "MIT": "MIT",
+    "BSD-3-Clause": "BSD-3-Clause",
+    "Proprietary": "LicenseRef-Proprietary",
+}
+
 
 @pytest.mark.parametrize("license_id", sorted(LICENSE_MARKERS))
 def test_license_is_rendered(tmp_path: Path, license_id: str) -> None:
@@ -149,7 +158,12 @@ def test_license_is_rendered(tmp_path: Path, license_id: str) -> None:
     assert LICENSE_MARKERS[license_id] in license_text
 
     pyproject = (project / "app" / "pyproject.toml").read_text(encoding="utf-8")
-    assert f'license = "{license_id}"' in pyproject
+    recorded = re.search(r'^license = "(.*)"$', pyproject, re.MULTILINE)
+    assert recorded is not None, "license not recorded in app/pyproject.toml"
+    # Build backends reject anything that is not a valid SPDX expression
+    # (PEP 639), which would make the generated app uninstallable.
+    assert canonicalize_license_expression(recorded[1]) == recorded[1]
+    assert recorded[1] == LICENSE_SPDX_IDS[license_id]
 
 
 # ---------------------------------------------------------------------------
