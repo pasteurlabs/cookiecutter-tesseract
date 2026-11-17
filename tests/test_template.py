@@ -63,6 +63,15 @@ def test_no_leftover_placeholders(generated_project: Path) -> None:
                 assert marker not in text, f"{path}: {marker}"
 
 
+def test_files_end_with_single_newline(tmp_path: Path) -> None:
+    """Every generated file passes the project's own end-of-file-fixer hook."""
+    for path in render(tmp_path).rglob("*"):
+        if path.is_file():
+            text = path.read_text(encoding="utf-8")
+            if text:
+                assert text.endswith("\n") and not text.endswith("\n\n"), path
+
+
 def test_readme_title(generated_project: Path) -> None:
     """The README title renders the project name."""
     first_line = (
