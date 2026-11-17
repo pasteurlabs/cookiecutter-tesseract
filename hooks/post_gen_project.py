@@ -55,12 +55,15 @@ def render_license(project_dir: Path) -> None:
     text = LICENSE_TEXTS[LICENSE_ID].format(year=year, holder=holder)
     license_file.write_text(text, encoding="utf-8")
 
-    # Record the license identifier in the app package metadata.
+    # Record the license in the app package metadata. Build backends require a
+    # valid SPDX expression here (PEP 639), so "Proprietary" uses the
+    # LicenseRef- form reserved for custom licenses.
+    spdx_id = "LicenseRef-Proprietary" if LICENSE_ID == "Proprietary" else LICENSE_ID
     pyproject = project_dir / "app" / "pyproject.toml"
     content = pyproject.read_text(encoding="utf-8")
     content = content.replace(
         'requires-python = ">=3.10"',
-        f'license = "{LICENSE_ID}"\nrequires-python = ">=3.10"',
+        f'license = "{spdx_id}"\nrequires-python = ">=3.10"',
     )
     pyproject.write_text(content, encoding="utf-8")
 
